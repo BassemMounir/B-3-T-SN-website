@@ -1,0 +1,23 @@
+{% extends 'SN/base.html' %}
+{% block posts_active %}active{% endblock %}
+
+{% block body %}
+    <div class="users-container container-fluid">
+        <div class="row">
+            {% for user in object_list %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="caption">
+
+                        <!--user name-->
+                        <a href="{% url 'ProfilePage:detail' user.id %}">{{ user.userFirstName }} {{ " " }} {{ user.userSecondName }}<br/><br /></a>
+
+                        <!--details-->
+                        <a href="{% url 'ProfilePage:detail' user.id %}" class="btn btn-primary btn-sm">View Details</a>
+
+                    </div>
+                </div>
+{#                <il><a href="{% url 'ProfilePage:detail' user.id %}">{{ user.userFirstName }} {{ " " }} {{ user.userSecondName }}<br/><br /></a></il>#}
+            {% endfor %}
+        </div>
+
+{% endblock %}

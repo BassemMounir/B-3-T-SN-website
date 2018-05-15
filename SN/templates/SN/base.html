@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Social Network {% endblock %}</title>
+
+    <!--link css with html-->
+    {% load staticfiles %}
+    <!--the arrangement of the 5 next lines is important!-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'SN/style.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    ﻿
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            background: #283048; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #283048, #859398); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #283048, #859398); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background-size: contain;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3E1D6D', endColorstr='#092756', GradientType=1);
+        }
+    </style>
+
+    <script type="text/javascript">
+        (function ($) {
+            window.onbeforeunload = function (e) {
+                window.name += ' [' + $(window).scrollTop().toString() + '[' + $(window).scrollLeft().toString();
+            };
+            $.maintainscroll = function () {
+                if (window.name.indexOf('[') > 0) {
+                    var parts = window.name.split('[');
+                    window.name = $.trim(parts[0]);
+                    window.scrollTo(parseInt(parts[parts.length - 1]), parseInt(parts[parts.length - 2]));
+                }
+            };
+            $.maintainscroll();
+        })(jQuery);
+    </script>
+</head>
+
+<body>
+<!--Navigation Bar-->
+<nav class="navbar navbar-inverse">
+    <!--header-->
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <!--mish fahma 7etet el buttom di-->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--logo el app-->
+            <a class="navbar-brand" href="{% url 'SN:home' %}">Social Network</a>
+
+        </div>
+        <!--items-->
+        <div class="collapse navbar-collapse" id="topNavBar">
+
+            <ul class="nav navbar-nav">
+                <!--home page bar item-->
+                <li {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:home' %}">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Home Page
+                    </a>
+                </li>
+                <!--users bar item-->
+                <li {% if request.resolver_match.url_name == 'myprofile' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:myprofile' %}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp; Profile
+                    </a>
+                </li>
+                <!--posts bar item-->
+                <li {% if request.resolver_match.url_name == 'friends' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:friends' %}">
+                        <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp; Social
+                    </a>
+                </li>
+            </ul>
+
+            <!--search form-->
+        <!--action="." This tells django to do the GET action in the same URL as you are-->
+            <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'SN:search_results' %}">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="q" placeholder="Search.." name="q" value="{{ q }}" >
+                </div>
+{#                <button type="submit" id="search_submit" class="btn btn-default" >Search</button>#}
+                                <button type="submit" id="search_submit" class="btn btn-default" >
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+            </form>
+
+            <!--search form-->
+
+            <!--items on right side-->
+            <ul class="nav navbar-nav navbar-right">
+                <!--write post item-->
+            {%  if  request.user.is_superuser %}
+                <li {% if request.resolver_match.url_name == 'graph' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:graph' %}">
+                        <i class="material-icons" style="font-size:17px">&#xe335;</i> Graph
+                    </a>
+                </li>
+            {% endif %}
+               <li {% if request.resolver_match.url_name == 'analysis' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:analysis' %}">
+                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp; Analysis
+                    </a>
+                </li>
+                <li {% if request.resolver_match.url_name == 'addpost' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:addpost' %}">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp; Write Post
+                    </a>
+                </li>
+                <!--logout item-->
+                <li class="">
+                    <a href="{% url 'SN:logout' %}">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+{% block body %}
+{% endblock %}
+</body>
+
+</html>

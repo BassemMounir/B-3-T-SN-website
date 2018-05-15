@@ -1,0 +1,145 @@
+{% extends 'SN/base.html' %}
+{% block title %}Social{% endblock%}
+{% block body %}
+    <style>
+    a{
+        color:lightgray
+    }
+        img{
+            margin-left: 20px;
+        }
+    .panel-transparent {
+        background: none;
+    }
+
+    .panel-transparent .panel-body{
+        background: rgba(46, 51, 56, 0.2);
+    }
+    </style>
+    <br>
+{% if friendss %}
+    <div class="col-sm-5 ">
+
+    <div class="panel  panel-transparent">
+        <div class="panel-body" >
+        <h2 style="color: white">Following:</h2>
+        <br>
+    {% for friend in friendss %}
+
+        <div class="row">&emsp;
+            <a href="{% url 'SN:profile' friend.id%}" >&emsp;
+                    <div class="col-sm-3">
+                    {% if friend.profile_pic %}
+                        <img src="{{ friend.profile_pic.url }}" class="img-responsive" style="width:50px;height:50px;">
+                    {% else %}
+                        <h3>No image to display</h3>
+                    {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                        <h4>{{ friend.first_name }} {{ ' ' }} {{ friend.last_name }}</h4>
+                    </div>
+                    <div class="col-sm-1">
+
+                        <a href="{% url 'SN:change_friends' "Remove" friend.id %}" class="btn btn-info" role="button">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            Unfollow
+                        </a>
+                    </div>
+            </a>
+
+        </div>
+        <br>
+    {% endfor %}
+        </div></div>
+    {% if followers %}
+
+
+
+<div class="panel  panel-transparent">
+        <div class="panel-body" >
+
+    <h2 style="color: white">Followers:</h2>
+<br>
+        {% for follower in followers %}
+            <div class="row">&emsp;
+            <a href="{% url 'SN:profile' follower.id%}" >&emsp;
+                    <div class="col-sm-3">
+                    {% if follower.profile_pic %}
+                        <img src="{{ follower.profile_pic.url }}" class="img-responsive" style="width:50px;height:50px;">
+                    {% else %}
+                        <h3>No image to display</h3>
+                    {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                        <h4>{{ follower.first_name }} {{ ' ' }} {{ follower.last_name }}</h4>
+                    </div>
+                    <div class="col-sm-1">
+
+                        <a href="{% url 'SN:change_friends' "Add" follower.id %}" class="btn btn-info" role="button">
+                            {% if follower in friendss%}
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            Unfollow
+                        {% else %}
+                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Follow
+                        {% endif %}
+                        </a>
+                    </div>
+            </a>
+
+        </div>
+
+                     <br>
+        {% endfor %}
+        </div></div>
+{% endif %}
+    </div>
+    {% endif %}
+
+    <div class="col-sm-1 "></div>
+
+{%  if friendsoffriends %}
+        <div class="col-sm-5 ">
+
+<div class="panel  panel-transparent">
+        <div class="panel-body" >
+
+    <h2 style="color: white">People you may know:</h2>
+<br>
+        {% for user in friendsoffriends %}
+            <div class="row">&emsp;
+            <a href="{% url 'SN:profile' user.id%}" >&emsp;
+                    <div class="col-sm-3">
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="img-responsive" style="width:50px;height:50px;">
+                    {% else %}
+                        <h3>No image to display</h3>
+                    {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                        <h4>{{ user.first_name }} {{ ' ' }} {{ user.last_name }}</h4>
+                    </div>
+                    <div class="col-sm-1">
+
+                        <a href="{% url 'SN:change_friends' "Add" user.id %}" class="btn btn-info" role="button">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Follow
+                        </a>
+                    </div>
+            </a>
+
+        </div>
+
+                     <br>
+        {% endfor %}
+        </div></div></div>
+    {% endif %}
+
+
+
+
+
+{% endblock %}

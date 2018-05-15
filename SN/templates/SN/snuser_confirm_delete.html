@@ -1,0 +1,22 @@
+{% extends 'SN/base.html' %}
+<style>
+    #content-container {
+        align-content: center;
+    }
+</style>
+{% block body %}
+    <div id="content-container" class="jumbotron col-sm-6 col-sm-offset-3">
+        <p>
+        <h2>You're about to delete your profile !! 😳</h2>
+        <br>
+        <h3>Please confirm !</h3>
+        </p>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input class="btn btn-link"
+                   type="button" value="Cancel"
+                   onclick="window.history.go(-1);"/>
+            <input class="btn btn-danger" type="submit" value="Confirm"/>
+        </form>
+    </div>
+{% endblock %}

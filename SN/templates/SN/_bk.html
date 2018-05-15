@@ -1,0 +1,18 @@
+{% extends "SN/base.html" %}
+
+{#{% load crispy_forms_tags %}#}
+{% block body %}
+<div class="container">
+
+    <form method="post" action="">
+        <h2 class ="form-signin-heading">
+            Please Sign in
+        </h2>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="login"/><br />
+        <a href="#" >Register</a> - <a href="#">Can't Remember Password</a>
+    </form>
+</div>
+
+{% endblock %}

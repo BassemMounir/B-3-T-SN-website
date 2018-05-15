@@ -1,0 +1,60 @@
+{% extends 'SN/base.html' %}
+
+{% block title %}Analysis{% endblock %}
+
+{% block body %}
+    <h1 style="color:silver">Top Posts:</h1>
+        <ul>
+            <li style="color: silver" type="square">
+                <h1 style="color:silver"></h1>
+                <h3 style="color:silver"> Most Liked : <a href="{% url 'SN:profile' mlpost.owner.pk %}">{{mlpost.owner}}</a>'s <a href="{% url 'SN:post_details' mlpost.pk %}">Post</a>  with {{ maxlikes }} Likes.</h3>
+            </li>
+            <li style="color: silver" type="square">
+                <h1 style="color:silver"></h1>
+                <h3 style="color:silver"> Most Commented on : <a href="{% url 'SN:profile' mcpost.owner.pk %}">{{mcpost.owner}}</a>'s <a href="{% url 'SN:post_details' mcpost.pk %}">Post</a>  with {{ maxcomments }} Comments.</h3>
+            </li>
+        </ul>
+     <h1 style="color:silver">Top Users:</h1>
+
+<ul>
+    <li style="color: silver" type="square">
+            <h2 style="color:silver">Most Interactive Users:</h2>
+            <ul>
+
+                <li style="color: silver" type="circle">
+                    <h1 style="color:silver"></h1>
+                    <h3 style="color:silver"> {{ maxuserlikes }} likes made by  <a href="{% url 'SN:profile' maxlikesuser.id %}">{{maxlikesuser}}</a>.   </h3>
+                </li>
+                <li style="color: silver" type="circle">
+                    <h1 style="color:silver"></h1>
+                    <h3 style="color:silver"> {{ maxusercomments }} comments made by  <a href="{% url 'SN:profile' maxcommentsuser.id %}">{{maxcommentsuser}}</a>.   </h3>
+                </li>
+            </ul>
+    </li>
+    <li style="color: silver" type="square">
+        <h2 style="color:silver">User following most users:</h2>
+        <ul>
+            <li style="color: silver" type="circle">
+               <h3 style="color:silver">    <a href="{% url 'SN:profile' userwithmaxfriends.id %}">{{userwithmaxfriends}}</a> is following {{ maxfriends }} users.   </h3>
+            </li>
+        </ul>
+    </li>
+    <li style="color: silver" type="square">
+        <h2 style="color:silver">User with most followers:</h2>
+        <ul>
+            <li style="color: silver" type="circle">
+               <h3 style="color:silver">    <a href="{% url 'SN:profile' maxfollowersuser.id %}">{{maxfollowersuser}}</a> with {{ maxfollowerscount }} followers.   </h3>
+            </li>
+        </ul>
+    </li>
+    <li style="color: silver" type="square">
+        <h2 style="color:silver">User with most posts:</h2>
+        <ul>
+            <li style="color: silver" type="circle">
+               <h3 style="color:silver">    <a href="{% url 'SN:profile' maxpostsuser.id %}">{{maxpostsuser}}</a> with {{ maxuserposts }} posts.   </h3>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+{% endblock %}

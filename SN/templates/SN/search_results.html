@@ -1,0 +1,50 @@
+{% extends 'SN/base.html' %}
+{% block title %}Search Results for "{{ q }}"{% endblock %}
+{% block body %}
+    <style>
+        img {
+            margin-left: 20px;
+        }
+        h3 {
+            color: floralwhite;
+        }
+        p1 {
+            color: whitesmoke;
+        }
+    </style>
+    <br>
+    {% if search_result %}
+        <div>
+            <h3>
+                &emsp;<p1>{{ search_result.all.count }} matches found for "<strong>{{ q }}</strong>":</p1>
+            </h3>
+            <br>
+        </div>
+        {% for current_user in search_result %}
+            <div class="row">&emsp;
+                <a href="{% url 'SN:profile' current_user.id %}">&emsp;
+                    <div class="col-sm-1">
+                        {% if current_user.profile_pic %}
+                            <img src="{{ current_user.profile_pic.url }}" class="img-responsive"
+                                 style="width:50px;height:50px;">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-2">
+
+                        <h4>{{ current_user.first_name }} {{ ' ' }} {{ current_user.last_name }}</h4>
+                    </div>
+                </a>
+
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h3>
+            &emsp; No matches found for "<p1><strong>{{ q }}</strong></p1>"
+        </h3>
+
+    {% endif %}
+
+{% endblock %}

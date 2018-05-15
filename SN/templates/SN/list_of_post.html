@@ -1,0 +1,12 @@
+{% extends 'SN/base.html' %}
+
+{% block title %}List of posts{% endblock %}
+
+{% block content %}
+    {% for posts in post %}
+        <h2>{{  posts.text }}</h2>
+        <p>Written by {{posts.owner}} on {{posts.date}}</p>
+        <hr>
+        {{posts.text|truncatewords:40|linebreaks}}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'SN/base.html' %}
+<style>
+    #content-container{
+        align-content: center;
+
+    }
+</style>
+{% block body %}
+    <div id="content-container" class="jumbotron col-sm-6 col-sm-offset-3">
+
+
+            <p>You're about to delete this comment:
+                <br>
+                <mark>
+                    {{ object.text }}
+
+                </mark>
+                <br>
+                <h3>Are you sure? 😢</h3>
+                Please confirm !
+            </p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input class="btn btn-link"
+                       type="button" value="Cancel"
+                       onclick="window.history.go(-1);"/>
+                <input class="btn btn-danger" type="submit" value="Confirm"/>
+            </form>
+
+    </div>
+{% endblock %}
