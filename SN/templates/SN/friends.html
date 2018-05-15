@@ -77,15 +77,19 @@
                     </div>
                     <div class="col-sm-1">
 
-                        <a href="{% url 'SN:change_friends' "Add" follower.id %}" class="btn btn-info" role="button">
-                            {% if follower in friendss%}
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            Unfollow
+
+                        {% if follower in friendss%}
+                                <a href="{% url 'SN:change_friends' "Remove" follower.id %}" class="btn btn-info" role="button">
+
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    Unfollow
+                                </a>
                         {% else %}
+                            <a href="{% url 'SN:change_friends' "Add" follower.id %}" class="btn btn-info" role="button">
                              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                             Follow
-                        {% endif %}
                         </a>
+                        {% endif %}
                     </div>
             </a>
 
