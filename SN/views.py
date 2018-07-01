@@ -240,7 +240,6 @@ def FriendsView(request):
     return render(request, 'SN/friends.html', {'friendss': friendss, 'friendsoffriends': friendsoffriends,'followers': followers})
 
 
-
 def change_friends(request, operation, pk):
     if request.user.is_anonymous is True:
         return redirect('SN:login')
@@ -261,7 +260,7 @@ def post_details(request, pk):
     template = 'SN/post_details.html'
     fileName, fileExtension = os.path.splitext(this_post.photo.name)
     form = AddCommentForm(request.POST)
-    context = {'this_post': this_post, 'form': form,'fileextension':fileExtension,'currentuser':request.user}
+    context = {'this_post': this_post, 'form': form, 'fileextension': fileExtension, 'currentuser':request.user}
     return render(request, template, context)
 
 

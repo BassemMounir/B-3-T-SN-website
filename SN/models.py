@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
+from datetime import datetime,timedelta
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
 
@@ -21,7 +22,6 @@ class SNUser(AbstractUser):
         return self.first_name+" "+self.last_name
 
 
-
 class Post(models.Model):
     owner = models.ForeignKey(SNUser, related_name='posts', on_delete=models.CASCADE)
     text = models.CharField(max_length=5000)
@@ -34,7 +34,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.owner.username + " \n\t " + self.text
-
 
 
 class Comment(models.Model):
@@ -51,7 +50,6 @@ class Comment(models.Model):
 class Like(models.Model):
     post = models.ForeignKey(Post, related_name='like', on_delete=models.CASCADE)
     owner = models.ForeignKey(SNUser, related_name='likes', on_delete=models.CASCADE)
-
 
     def __str__(self):
         return self.owner.username
