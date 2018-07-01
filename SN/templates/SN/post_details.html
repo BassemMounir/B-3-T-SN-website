@@ -41,19 +41,19 @@
             <div class="col-sm-6 col-sm-offset-3">
 
                 <div class="jumbotron">
-                 {% if currentuser == this_post.owner%}
-                    <div class="col-sm-6 col-sm-offset-8">
+                    {% if currentuser == this_post.owner %}
+                        <div class="col-sm-6 col-sm-offset-8">
 
-                                    <a href="{% url 'SN:edit_post' this_post.pk %}" class="btn btn-outline btn-md"
-                                       role="button">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
-                                    </a>
-                                    <a href="{% url 'SN:delete_post' this_post.pk %}" class="btn btn-danger btn-md"
-                                       role="button">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
-                                    </a>
-                    </div>
-                {% endif %}
+                            <a href="{% url 'SN:edit_post' this_post.pk %}" class="btn btn-outline btn-md"
+                               role="button">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
+                            </a>
+                            <a href="{% url 'SN:delete_post' this_post.pk %}" class="btn btn-danger btn-md"
+                               role="button">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+                            </a>
+                        </div>
+                    {% endif %}
                     <div class="row">
                         <a href="{% url 'SN:profile' this_post.owner.id %}">
                             <div class="col-sm-3">
@@ -70,24 +70,25 @@
                             </a1>
 
                         </a>
+                        <h5>{{ this_post.date }}</h5>
                     </div>
                     <hr>
                     <p class="row"> &emsp;&emsp;&emsp;{{ this_post.text }}</p>
 
                     {% if this_post.photo %}
-                        {% if fileextension == '.jpg'   %}
-                        <img src="{{ this_post.photo.url }}" class="img-rounded" height="200" width="200">
-                        <br>
+                        {% if fileextension == '.jpg' %}
+                            <img src="{{ this_post.photo.url }}" class="img-rounded" height="200" width="200">
+                            <br>
                         {% elif fileextension == '.png' %}
                             <img src="{{ this_post.photo.url }}" class="img-rounded" height="200" width="200">
-                        <br>
-                         {% elif fileextension == '.mp4' %}
+                            <br>
+                        {% elif fileextension == '.mp4' %}
                             <video width="320" height="240" controls="">
-                                <source src="{{this_post.photo.url}} " type="video/mp4">
+                                <source src="{{ this_post.photo.url }} " type="video/mp4">
                             </video>
-                            {% elif fileextension == '.mp3' %}
+                        {% elif fileextension == '.mp3' %}
                             <audio controls>
-                                <source src="{{this_post.photo.url}} " type="audio/mpeg">
+                                <source src="{{ this_post.photo.url }} " type="audio/mpeg">
                             </audio>
 
                         {% endif %}
@@ -138,20 +139,8 @@
                             </div>
                             <br>
                             <input value="Comment" class="btn btn-info" type="submit">
-
-
                         </form>
-                        {#                    </div>#}
-                        {##}
-                        {#                    {% comments= Comment.objects.all().filter(post=this_post) %}#}
-                        {#                    {% if comments %}#}
-                        {#                        {% for comment in  comments %}#}
-                        {#                            <pre>#}
-                        {#                    {{ comment.text }}#}
-                        {#                    </pre>#}
-                        {#                        {% endfor %}#}
-                        {#                    {% endif %}#}
-                        {#                </div>#}
+
                     </div>
 
                     {% for comment in this_post.comments.all %}
@@ -169,19 +158,18 @@
                                 {{ comment.owner.first_name }}{{ ' ' }}{{ comment.last_name }}</strong>
                             </a1>
                         </a>
+                        <h5>{{ comment.date }}</h5>
                         <p>
                             <mark>{{ comment.text }}</mark>
-
-                        {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser  %}
-                        <a href="{% url 'SN:delete_comment'  comment.pk%}" class="btn btn-danger btn-md"
-                                       role="button">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
-                        </a>
-                        {% endif %}
                         </p>
 
-
-
+                        {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser %}
+                            <a href="{% url 'SN:delete_comment'  comment.pk %}" class="btn btn-danger btn-md"
+                               role="button">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+                            </a>
+                            <hr>
+                        {% endif %}
 
                     {% endfor %}
                 </div>

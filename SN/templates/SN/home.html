@@ -155,17 +155,7 @@
 
 
                                 </form>
-                                {#                    </div>#}
-                                {##}
-                                {#                    {% comments= Comment.objects.all().filter(post=this_post) %}#}
-                                {#                    {% if comments %}#}
-                                {#                        {% for comment in  comments %}#}
-                                {#                            <pre>#}
-                                {#                    {{ comment.text }}#}
-                                {#                    </pre>#}
-                                {#                        {% endfor %}#}
-                                {#                    {% endif %}#}
-                                {#                </div>#}
+
                             </div>
 
                             <div class="dropdown">
@@ -198,7 +188,7 @@
                                                 </a1>
 
                                             </a>
-
+                                            <h5>{{ comment.date }}</h5>
                                         </div><br>
                                         <p>
                                             <p5>
@@ -241,7 +231,7 @@
                                     </a1>
 
                                 </a>
-                            <h5>{{ this_post.date }}</h5>
+                                <h5>{{ this_post.date }}</h5>
                             </div>
                             <hr>
                             <p class="row">&emsp;{{ this_post.text }}</p>
@@ -319,17 +309,6 @@
 
 
                                 </form>
-                                {#                    </div>#}
-                                {##}
-                                {#                    {% comments= Comment.objects.all().filter(post=this_post) %}#}
-                                {#                    {% if comments %}#}
-                                {#                        {% for comment in  comments %}#}
-                                {#                            <pre>#}
-                                {#                    {{ comment.text }}#}
-                                {#                    </pre>#}
-                                {#                        {% endfor %}#}
-                                {#                    {% endif %}#}
-                                {#                </div>#}
                             </div>
 
                             <div class="dropdown">
@@ -362,6 +341,7 @@
                                                 </a1>
 
                                             </a>
+                                            <h5>{{ comment.date }}</h5>
 
                                         </div><br>
                                         <p>
