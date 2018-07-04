@@ -40,19 +40,28 @@
 
 <div class="col-sm-1 col-sm-offset-1 ">
     <div class="container">
-        <!--{% if messages %}-->
-          <!--<ul class="messages">-->
-            <!--{% for message in messages %}-->
-              <!--<li class="{{ message.tags }}">{{ message }}</li>-->
-            <!--{% endfor %}-->
-          <!--</ul>-->
-        <!--{% endif %}-->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{message.level_tag}}" role="alert">
+                    <h3>
+                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        {{ message }} &nbsp;&nbsp;
+                        <a href="." class="del-msg">&times;</a>
+                    </h3>
+                </div>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
         {% for this_post in logged_in_user_posts %}
 
         <div class="col-sm-6 col-sm-offset-3">
+
             <div class="jumbotron">
 
                 <div class="col-sm-6 col-sm-offset-8">
+
                     <a href="{% url 'SN:edit_post' this_post.pk %}" class="btn btn-outline btn-md"
                        role="button">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
