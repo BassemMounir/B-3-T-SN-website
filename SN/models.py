@@ -86,16 +86,16 @@ class ReportUser(models.Model):
     reported_user = models.ForeignKey(SNUser, related_name='reported', on_delete=models.CASCADE)
     report_option = models.CharField(choices=CHOICES, max_length=100)
 
-#
-# class ReportPost(models.Model):
-#     CHOICES = [('select1', 'This is a fake account'),
-#                ('select2', 'This person has inappropriate personal information (profile picture, bio section...etc.)'),
-#                ('select3', 'This person is sharing inappropriate/offensive posts'),
-#                ('select4', 'This person is annoying me'),
-#                ('select5', 'Other...')
-#                ]
-#
-#     text = models.CharField(max_length=5000)
-#     owner = models.ForeignKey(SNUser, related_name='reporting', on_delete=models.CASCADE)
-#     reported_user = models.ForeignKey(SNUser, related_name='reported', on_delete=models.CASCADE)
-#     report_option = models.CharField(choices=CHOICES, max_length=100)
+
+class ReportPost(models.Model):
+    CHOICES = [('select1', 'This post is annoying/not interesting'),
+               ('select2', "The post's content is offensive/abusive (bad language,threatening,violence,..etc."),
+               ('select3', "Spam post"),
+               ('select4', 'Other...'),
+               ]
+
+    text = models.CharField(max_length=5000)
+    owner = models.ForeignKey(SNUser, related_name='reporting_user', on_delete=models.CASCADE)
+    reported_post = models.ForeignKey(Post, related_name='reported_post', on_delete=models.CASCADE)
+    reported_post_user = models.ForeignKey(SNUser, related_name='reported_post_user', on_delete=models.CASCADE)
+    report_option = models.CharField(choices=CHOICES, max_length=100)

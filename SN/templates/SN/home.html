@@ -210,10 +210,10 @@
                             </p5>
                         </p>
                         {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser %}
-                        <a href="{% url 'SN:delete_comment'  comment.pk %}"
+                        <a href="{% url 'SN:delete_comment' comment.pk %}"
                            class="btn btn-danger btn-md"
                            role="button">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true">&nbsp;Delete</span>
                         </a>
                         {% endif %}
                         <br>
@@ -376,13 +376,27 @@
 
                         {% endfor %}
                     </ul>
+
                 </div>
+                <br>
+                <!-- Report User Button -->
+                <div class="col-sm-offset-9">
+                    <a href="{% url 'SN:report_post' this_post.id %}" class="btn btn-outline-warning"
+                       role="button">
+                        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                        <strong>Report Post</strong>
+                    </a>
+                </div>
+                <!-- Report User Button -->
             </div>
         </div>
         {% endfor %}
 
     </div>
 </div>
+
+
+
 
 
 <div class="col-sm-1"></div>

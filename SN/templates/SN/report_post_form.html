@@ -8,7 +8,7 @@
         <div class="panel panel-default">
 
             <div class="panel-body">
-                <h3><strong>Report User 🚫</strong></h3>
+                <h3><strong>Report Post 🚫</strong></h3>
                 {% if error_message %}
                 <p><strong>{{ error_message }} </strong></p>
                 {% endif %}
@@ -17,7 +17,7 @@
                 <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
-                    <label><h4><strong>Why are you reporting this user?</strong></h4></label>
+                    <label><h4><strong>Why are you reporting this post?</strong></h4></label>
                     <div class="col-sm-10">
 
                         {{ form.report_option }}

@@ -1,4 +1,4 @@
-from .models import SNUser, Post, Comment, ReportUser
+from .models import SNUser, Post, Comment, ReportUser, ReportPost
 from django import forms
 
 
@@ -51,3 +51,24 @@ class ReportUserForm(forms.ModelForm):
     class Meta:
         model = ReportUser
         fields = ['report_option', 'text']
+
+
+class ReportPostForm(forms.ModelForm):
+    CHOICES = [('select1', 'This post is annoying/not interesting'),
+               ('select2', "The post's content is offensive/abusive (bad language,threatening,violence,..etc."),
+               ('select3', "Spam post"),
+               ('select4', 'Other...'),
+               ]
+
+    text = forms.CharField(required=False,
+                           max_length=1000,
+                           widget=forms.Textarea(attrs={'rows': 5, 'class': "form-control"}),
+                           )
+
+    report_option = forms.ChoiceField(choices=CHOICES, required=True, widget=forms.RadioSelect())
+
+    class Meta:
+        model = ReportPost
+        fields = ['report_option', 'text']
+
+

@@ -18,6 +18,9 @@ urlpatterns = [
     # SN/profile/4/report_user/
     re_path(r'^profile/(?P<pk>[0-9]+)/report_user/$', views.ReportUserView.as_view(), name='report_user'),
 
+    # SN/profile/4/report_user/
+    re_path(r'^posts/(?P<pk>[0-9]+)/report_post/$', views.ReportPostView.as_view(), name='report_post'),
+
     # SN/friends/ --> Social page
     re_path(r'^friends/$', views.FriendsView, name='friends'),
 
