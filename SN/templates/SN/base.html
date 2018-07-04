@@ -95,7 +95,6 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="q" placeholder="Search.." name="q" value="{{ q }}" >
                 </div>
-{#                <button type="submit" id="search_submit" class="btn btn-default" >Search</button>#}
                                 <button type="submit" id="search_submit" class="btn btn-default" >
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
@@ -136,7 +135,13 @@
     </div>
 
 </nav>
-
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 {% block body %}
 {% endblock %}
 </body>

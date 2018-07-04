@@ -1,0 +1,67 @@
+{% extends 'SN/base.html' %}
+{% block title %}Report User{% endblock %}
+{% block body %}
+<div class="container-fluid">
+
+    <div class="col-sm-12 col-md-7">
+
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <h3><strong>Report User 🚫</strong></h3>
+                {% if error_message %}
+                <p><strong>{{ error_message }} </strong></p>
+                {% endif %}
+                <hr>
+
+                <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <label><h4><strong>Please specify one of the following reasons:</strong></h4></label>
+                    <div class="col-sm-10">
+
+                        <!--<div class="input-group">-->
+                        <!--<div class="radio">-->
+                        <!--<label><input type="radio" name="options" value="1">This is a fake account</label>-->
+                        <!--</div>-->
+                        <!--<div class="radio">-->
+                        <!--<label><input type="radio" name="options" value="2">This person has inappropriate-->
+                        <!--personal-->
+                        <!--information (profile-->
+                        <!--picture, bio section...etc.)</label>-->
+                        <!--</div>-->
+                        <!--<div class="radio">-->
+                        <!--<label><input type="radio" name="options" value="3">This person is sharing inappropriate/offensive posts</label>-->
+                        <!--</div>-->
+                        <!--<div class="radio">-->
+                        <!--<label><input type="radio" name="options" value="4">This person is annoying me</label>-->
+                        <!--</div>-->
+                        <!--<div class="radio">-->
+                        <!--<label><input type="radio" name="options" value="5">Other...</label>-->
+                        <!--</div>-->
+
+                        {{ form.report_option }}
+
+                    </div>
+                    <br>
+
+                    <label><h4><strong>Could you tell us more?</strong></h4></label>
+                    <!--<textarea class="form-control" rows="5" id="comment">{{ form.text }}</textarea>-->
+                    <div class="col-sm-10">{{ form.text }}</div>
+
+                    <br>
+                    <div class="form-group">
+                        <div class="col-sm-offset-10 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Send Report</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock %}

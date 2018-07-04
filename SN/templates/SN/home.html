@@ -1,418 +1,423 @@
-<div lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width = device-width, initial-scale = 1">
-        <title>Home</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-        <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
 
-    </head>
-    {% extends 'SN/base.html' %}
+</head>
+{% extends 'SN/base.html' %}
 
-    {% block body %}
-        <style>
-            a1 {
-                font-size: 20px
-            }
+{% block body %}
+<style>
+    a1 {
+        font-size: 20px
+    }
 
-            p {
-                word-wrap: break-word;
-            }
+    p {
+        word-wrap: break-word;
+    }
 
-            p5 {
-                word-wrap: break-word;
-            }
+    p5 {
+        word-wrap: break-word;
+    }
 
-            .dropdown-menu {
-                width: 350px;
-                white-space: normal;
-            }
+    .dropdown-menu {
+        width: 350px;
+        white-space: normal;
+    }
 
-            .panel-transparent {
-                background: transparent;
-            }
+    .panel-transparent {
+        background: transparent;
+    }
 
-            .panel-transparent .panel-body {
-                background: rgba(46, 51, 56, 0.2);
-            }
-        </style>
+    .panel-transparent .panel-body {
+        background: rgba(46, 51, 56, 0.2);
+    }
+</style>
 
-        <div class="col-sm-1 col-sm-offset-1 ">
-            <div class="container">
+<div class="col-sm-1 col-sm-offset-1 ">
+    <div class="container">
+        <!--{% if messages %}-->
+          <!--<ul class="messages">-->
+            <!--{% for message in messages %}-->
+              <!--<li class="{{ message.tags }}">{{ message }}</li>-->
+            <!--{% endfor %}-->
+          <!--</ul>-->
+        <!--{% endif %}-->
+        {% for this_post in logged_in_user_posts %}
 
-                {% for this_post in logged_in_user_posts %}
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="jumbotron">
 
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <div class="jumbotron">
+                <div class="col-sm-6 col-sm-offset-8">
+                    <a href="{% url 'SN:edit_post' this_post.pk %}" class="btn btn-outline btn-md"
+                       role="button">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
+                    </a>
+                    <a href="{% url 'SN:delete_post' this_post.pk %}" class="btn btn-danger btn-md"
+                       role="button">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
 
-                            <div class="col-sm-6 col-sm-offset-8">
-                                <a href="{% url 'SN:edit_post' this_post.pk %}" class="btn btn-outline btn-md"
-                                   role="button">
-                                    <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
-                                </a>
-                                <a href="{% url 'SN:delete_post' this_post.pk %}" class="btn btn-danger btn-md"
-                                   role="button">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+                    </a>
+                </div>
 
-                                </a>
-                            </div>
-
-                            <div class="row">
-                                <a href="{% url 'SN:profile' this_post.owner.id %}">
-                                    <div class="col-sm-3">
-                                        {% if this_post.owner.profile_pic %}
-                                            <img src="{{ this_post.owner.profile_pic.url }}" class="img-rounded"
-                                                 style="width:50px;height:50px;">
-                                        {% else %}
-                                            <h3>No image to display</h3>
-                                        {% endif %}
-                                    </div>
-
-                                    <a1 href="{% url 'SN:profile' this_post.owner.id %}"><strong>
-                                        {{ this_post.owner.first_name }}{{ ' ' }}{{ this_post.owner.last_name }}</strong>
-                                    </a1>
-
-                                </a>
-                                <h5>{{ this_post.date }}</h5>
-
-                            </div>
-                            <hr>
-                            <p class="row">&emsp;{{ this_post.text }}</p>
-
-                            {% if this_post.photo %}
-
-                                <a href="{% url 'SN:post_details' this_post.pk %}">
-                                    {% if '.jpg' in this_post.photo.url %}
-                                        <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
-                                             width="200">
-                                        <br>
-                                    {% elif '.png' in this_post.photo.url %}
-                                        <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
-                                             width="200">
-                                        <br>
-                                    {% elif '.mp4' in this_post.photo.url %}
-                                        <video width="320" height="240" controls="">
-                                            <source src="{{ this_post.photo.url }} " type="video/mp4">
-                                        </video>
-                                    {% elif '.mp3' in this_post.photo.url %}
-                                        <audio controls>
-                                            <source src="{{ this_post.photo.url }} " type="audio/mpeg">
-                                        </audio>
-
-                                    {% endif %}
-                                </a>
+                <div class="row">
+                    <a href="{% url 'SN:profile' this_post.owner.id %}">
+                        <div class="col-sm-3">
+                            {% if this_post.owner.profile_pic %}
+                            <img src="{{ this_post.owner.profile_pic.url }}" class="img-rounded"
+                                 style="width:50px;height:50px;">
+                            {% else %}
+                            <h3>No image to display</h3>
                             {% endif %}
-                            <br>
-                            <div class="col-sm-2">
-                                <div class="row">
-
-
-                                    {% if this_post.current_user_like %}
-                                        <a href="{% url 'SN:change_like' this_post.pk "Unlike" %}"
-                                           class="btn btn-info btn-md"
-                                           role="button">
-                                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'SN:change_like' this_post.pk "Like" %}"
-                                           class="btn btn-info btn-md"
-                                           role="button">
-                                            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                        </a>
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                            {% if this_post.like.all.count != 0 %}
-                                <div class="col-sm-1">
-                                    <div class="row">
-                                        <div class="row">
-                                            <p>
-                                                <strong>{{ this_post.like.all.count }}</strong></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-                            <div class="form-group">
-
-                                <form action={% url 'SN:addcomment' this_post.pk %} method="post"}>
-                                    {% csrf_token %}
-
-                                    <div class="fieldWrapper">
-                                        <div class="row">
-                                            <br>
-                                            <br><br>
-                                            <label for="{{ form.text.id_for_label }}">Comment:</label>
-                                            {{ form.text }}
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <input value="Comment" class="btn btn-info" type="submit">
-
-
-                                </form>
-
-                            </div>
-
-                            <div class="dropdown">
-                                <p>
-
-                                    <strong>{{ this_post.comments.all.count }}</strong> Comments
-                                </p>
-
-                                <button class="btn btn-primary dropdown-toggle btn-lg" type="button" id="dropdownMenu1"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    View Comments
-                                    <!-- Display icon in button -->
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    {% for comment in this_post.comments.all %}
-                                        <div>
-                                            <a href="{% url 'SN:profile' comment.owner.id %}">
-
-                                                {% if comment.owner.profile_pic %}
-                                                    <img src="{{ comment.owner.profile_pic.url }}" class="img-circle"
-                                                         style="width:50px;height:50px;">
-                                                {% else %}
-                                                    <h3>No image to display</h3>
-                                                {% endif %}
-
-
-                                                <a1 href="{% url 'SN:profile' comment.owner.id %}"><strong>
-                                                    {{ comment.owner.first_name }}{{ ' ' }}{{ comment.owner.last_name }}</strong>
-                                                </a1>
-
-                                            </a>
-                                            <h5>{{ comment.date }}</h5>
-                                        </div><br>
-                                        <p>
-                                            <p5>
-                                                <mark>{{ comment.text }}</mark>
-                                            </p5>
-                                        </p>
-                                        {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser %}
-                                            <a href="{% url 'SN:delete_comment'  comment.pk %}"
-                                               class="btn btn-danger btn-md"
-                                               role="button">
-                                                <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
-                                            </a>
-                                        {% endif %}
-                                        <br>
-
-                                    {% endfor %}
-                                </ul>
-                            </div>
                         </div>
-                    </div>
-                {% endfor %}
 
-                {% for this_post in friends_posts %}
+                        <a1 href="{% url 'SN:profile' this_post.owner.id %}"><strong>
+                            {{ this_post.owner.first_name }}{{ ' ' }}{{ this_post.owner.last_name }}</strong>
+                        </a1>
 
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <div class="jumbotron">
-                            <div class="row">
-                                <a href="{% url 'SN:profile' this_post.owner.id %}">
-                                    <div class="col-sm-3">
-                                        {% if this_post.owner.profile_pic %}
-                                            <img src="{{ this_post.owner.profile_pic.url }}" class="img-rounded"
-                                                 style="width:50px;height:50px;">
-                                        {% else %}
-                                            <h3>No image to display</h3>
-                                        {% endif %}
-                                    </div>
+                    </a>
+                    <h5>{{ this_post.date }}</h5>
 
-                                    <a1 href="{% url 'SN:profile' this_post.owner.id %}"><strong>
-                                        {{ this_post.owner.first_name }}{{ ' ' }}{{ this_post.owner.last_name }}</strong>
-                                    </a1>
+                </div>
+                <hr>
+                <p class="row">&emsp;{{ this_post.text }}</p>
 
-                                </a>
-                                <h5>{{ this_post.date }}</h5>
-                            </div>
-                            <hr>
-                            <p class="row">&emsp;{{ this_post.text }}</p>
+                {% if this_post.photo %}
 
-                            {% if this_post.photo %}
-                                <a href="{% url 'SN:post_details' this_post.pk %}">
-                                    {% if '.jpg' in this_post.photo.url %}
-                                        <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
-                                             width="200">
-                                        <br>
-                                    {% elif '.png' in this_post.photo.url %}
-                                        <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
-                                             width="200">
-                                        <br>
-                                    {% elif '.mp4' in this_post.photo.url %}
-                                        <video width="320" height="240" controls="">
-                                            <source src="{{ this_post.photo.url }} " type="video/mp4">
-                                        </video>
-                                    {% elif '.mp3' in this_post.photo.url %}
-                                        <audio controls>
-                                            <source src="{{ this_post.photo.url }} " type="audio/mpeg">
-                                        </audio>
+                <a href="{% url 'SN:post_details' this_post.pk %}">
+                    {% if '.jpg' in this_post.photo.url %}
+                    <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
+                         width="200">
+                    <br>
+                    {% elif '.png' in this_post.photo.url %}
+                    <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
+                         width="200">
+                    <br>
+                    {% elif '.mp4' in this_post.photo.url %}
+                    <video width="320" height="240" controls="">
+                        <source src="{{ this_post.photo.url }} " type="video/mp4">
+                    </video>
+                    {% elif '.mp3' in this_post.photo.url %}
+                    <audio controls>
+                        <source src="{{ this_post.photo.url }} " type="audio/mpeg">
+                    </audio>
 
-                                    {% endif %}
-                                </a>
-                            {% endif %}
-                            <br>
-                            <div class="col-sm-2">
-                                <div class="row">
+                    {% endif %}
+                </a>
+                {% endif %}
+                <br>
+                <div class="col-sm-2">
+                    <div class="row">
 
 
-                                    {% if this_post.current_user_like %}
-                                        <a href="{% url 'SN:change_like' this_post.pk "Unlike" %}"
-                                           class="btn btn-info btn-md"
-                                           role="button">
-                                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'SN:change_like' this_post.pk "Like" %}"
-                                           class="btn btn-info btn-md"
-                                           role="button">
-                                            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                        </a>
-                                    {% endif %}
+                        {% if this_post.current_user_like %}
+                        <a href="{% url 'SN:change_like' this_post.pk 'Unlike' %}"
+                           class="btn btn-info btn-md"
+                           role="button">
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'SN:change_like' this_post.pk 'Like' %}"
+                           class="btn btn-info btn-md"
+                           role="button">
+                            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                        </a>
+                        {% endif %}
 
-                                </div>
-                            </div>
-                            {% if this_post.like.all.count != 0 %}
-                                <div class="col-sm-1">
-                                    <div class="row">
-                                        <div class="row">
-                                            <p>
-                                                <strong>{{ this_post.like.all.count }}</strong></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-                            <div class="form-group">
-
-                                <form action={% url 'SN:addcomment' this_post.pk %} method="post"}>
-                                    {% csrf_token %}
-
-                                    <div class="fieldWrapper">
-                                        <div class="row">
-                                            <br>
-                                            <br><br>
-                                            <label for="{{ form.text.id_for_label }}">Comment:</label>
-                                            {{ form.text }}
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <input value="Comment" class="btn btn-info" type="submit">
-
-
-                                </form>
-                            </div>
-
-                            <div class="dropdown">
-                                <p>
-
-                                    <strong>{{ this_post.comments.all.count }}</strong> Comments
-                                </p>
-
-                                <button class="btn btn-primary dropdown-toggle btn-lg" type="button" id="dropdownMenu1"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    View Comments
-                                    <!-- Display icon in button -->
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    {% for comment in this_post.comments.all %}
-                                        <div>
-                                            <a href="{% url 'SN:profile' comment.owner.id %}">
-
-                                                {% if comment.owner.profile_pic %}
-                                                    <img src="{{ comment.owner.profile_pic.url }}" class="img-circle"
-                                                         style="width:50px;height:50px;">
-                                                {% else %}
-                                                    <h3>No image to display</h3>
-                                                {% endif %}
-
-
-                                                <a1 href="{% url 'SN:profile' comment.owner.id %}"><strong>
-                                                    {{ comment.owner.first_name }}{{ ' ' }}{{ comment.owner.last_name }}</strong>
-                                                </a1>
-
-                                            </a>
-                                            <h5>{{ comment.date }}</h5>
-
-                                        </div><br>
-                                        <p>
-                                            <p5>
-                                                <mark>{{ comment.text }}</mark>
-                                            </p5>
-                                        </p>
-                                        {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser %}
-
-                                            <a href="{% url 'SN:delete_comment'  comment.pk %}"
-                                               class="btn btn-danger btn-md"
-                                               role="button">
-                                                <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
-                                            </a>
-                                        {% endif %}
-                                        <br>
-
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-            </div>
-        </div>
-
-
-        <div class="col-sm-1"></div>
-
-        {% if friendsoffriends %}
-            <div class="col-sm-4 col-sm-offset-6">
-
-                <div class="panel  panel-transparent">
-                    <div class="panel-body">
-
-                        <h2 style="color: white">People you may know:</h2>
-                        <br>
-                        {% for user in friendsoffriends %}
-                            <div class="row">&emsp;
-
-                                <a href="{% url 'SN:profile' user.id %}" style="color: lightgray">&emsp;
-                                    <div class="col-sm-3">
-                                        {% if user.profile_pic %}
-                                            <img src="{{ user.profile_pic.url }}" class="img-responsive"
-                                                 style="width:50px;height:50px;">
-                                        {% else %}
-                                            <h3>No image to display</h3>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-sm-6">
-
-                                        <h4>{{ user.first_name }} {{ ' ' }} {{ user.last_name }}</h4>
-                                    </div>
-                                    <div class="col-sm-1">
-
-                                        <a href="{% url 'SN:change_friends' "Add" user.id %}" class="btn btn-info"
-                                           role="button">
-                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                            Follow
-                                        </a>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <br>
-                        {% endfor %}
                     </div>
                 </div>
+                {% if this_post.like.all.count != 0 %}
+                <div class="col-sm-1">
+                    <div class="row">
+                        <div class="row">
+                            <p>
+                                <strong>{{ this_post.like.all.count }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+                <div class="form-group">
+                    <form action="{% url 'SN:addcomment' this_post.pk %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="fieldWrapper">
+                            <div class="row">
+                                <br>
+                                <br><br>
+                                <label>Comment:</label>
+                                {{ form.text }}
+                            </div>
+                        </div>
+                        <br>
+                        <input value="Comment" class="btn btn-info" type="submit">
+
+
+                    </form>
+
+                </div>
+
+                <div class="dropdown">
+                    <p>
+
+                        <strong>{{ this_post.comments.all.count }}</strong> Comments
+                    </p>
+
+                    <button class="btn btn-primary dropdown-toggle btn-lg" type="button" id="dropdownMenu0"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        View Comments
+                        <!-- Display icon in button -->
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for comment in this_post.comments.all %}
+                        <div>
+                            <a href="{% url 'SN:profile' comment.owner.id %}">
+
+                                {% if comment.owner.profile_pic %}
+                                <img src="{{ comment.owner.profile_pic.url }}" class="img-circle"
+                                     style="width:50px;height:50px;">
+                                {% else %}
+                                <h3>No image to display</h3>
+                                {% endif %}
+
+
+                                <a1 href="{% url 'SN:profile' comment.owner.id %}"><strong>
+                                    {{ comment.owner.first_name }}{{ ' ' }}{{ comment.owner.last_name }}</strong>
+                                </a1>
+
+                            </a>
+                            <h5>{{ comment.date }}</h5>
+                        </div>
+                        <br>
+                        <p>
+                            <p5>
+                                <mark>{{ comment.text }}</mark>
+                            </p5>
+                        </p>
+                        {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser %}
+                        <a href="{% url 'SN:delete_comment'  comment.pk %}"
+                           class="btn btn-danger btn-md"
+                           role="button">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+                        </a>
+                        {% endif %}
+                        <br>
+
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        {% endif %}
+        </div>
+        {% endfor %}
+
+        {% for this_post in friends_posts %}
+
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="jumbotron">
+                <div class="row">
+                    <a href="{% url 'SN:profile' this_post.owner.id %}">
+                        <div class="col-sm-3">
+                            {% if this_post.owner.profile_pic %}
+                            <img src="{{ this_post.owner.profile_pic.url }}" class="img-rounded"
+                                 style="width:50px;height:50px;">
+                            {% else %}
+                            <h3>No image to display</h3>
+                            {% endif %}
+                        </div>
+
+                        <a1 href="{% url 'SN:profile' this_post.owner.id %}"><strong>
+                            {{ this_post.owner.first_name }}{{ ' ' }}{{ this_post.owner.last_name }}</strong>
+                        </a1>
+
+                    </a>
+                    <h5>{{ this_post.date }}</h5>
+                </div>
+                <hr>
+                <p class="row">&emsp;{{ this_post.text }}</p>
+
+                {% if this_post.photo %}
+                <a href="{% url 'SN:post_details' this_post.pk %}">
+                    {% if '.jpg' in this_post.photo.url %}
+                    <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
+                         width="200">
+                    <br>
+                    {% elif '.png' in this_post.photo.url %}
+                    <img src="{{ this_post.photo.url }} " class="img-rounded" height="200"
+                         width="200">
+                    <br>
+                    {% elif '.mp4' in this_post.photo.url %}
+                    <video width="320" height="240" controls="">
+                        <source src="{{ this_post.photo.url }} " type="video/mp4">
+                    </video>
+                    {% elif '.mp3' in this_post.photo.url %}
+                    <audio controls>
+                        <source src="{{ this_post.photo.url }} " type="audio/mpeg">
+                    </audio>
+
+                    {% endif %}
+                </a>
+                {% endif %}
+                <br>
+                <div class="col-sm-2">
+                    <div class="row">
 
 
-    {% endblock %}
+                        {% if this_post.current_user_like %}
+                        <a href="{% url 'SN:change_like' this_post.pk 'Unlike' %}"
+                           class="btn btn-info btn-md"
+                           role="button">
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'SN:change_like' this_post.pk 'Like' %}"
+                           class="btn btn-info btn-md"
+                           role="button">
+                            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                        </a>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% if this_post.like.all.count != 0 %}
+                <div class="col-sm-1">
+                    <div class="row">
+                        <div class="row">
+                            <p>
+                                <strong>{{ this_post.like.all.count }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+                <div class="form-group">
+
+                    <form action="{% url 'SN:addcomment' this_post.pk %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="fieldWrapper">
+                            <div class="row">
+                                <br>
+                                <br><br>
+                                <label>Comment:</label>
+                                {{ form.text }}
+                            </div>
+                        </div>
+                        <br>
+                        <input value="Comment" class="btn btn-info" type="submit">
+
+
+                    </form>
+                </div>
+
+                <div class="dropdown">
+                    <p>
+
+                        <strong>{{ this_post.comments.all.count }}</strong> Comments
+                    </p>
+
+                    <button class="btn btn-primary dropdown-toggle btn-lg" type="button" id="dropdownMenu1"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        View Comments
+                        <!-- Display icon in button -->
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for comment in this_post.comments.all %}
+                        <div>
+                            <a href="{% url 'SN:profile' comment.owner.id %}">
+
+                                {% if comment.owner.profile_pic %}
+                                <img src="{{ comment.owner.profile_pic.url }}" class="img-circle"
+                                     style="width:50px;height:50px;">
+                                {% else %}
+                                <h3>No image to display</h3>
+                                {% endif %}
+
+
+                                <a1 href="{% url 'SN:profile' comment.owner.id %}"><strong>
+                                    {{ comment.owner.first_name }}{{ ' ' }}{{ comment.owner.last_name }}</strong>
+                                </a1>
+
+                            </a>
+                            <h5>{{ comment.date }}</h5>
+
+                        </div>
+                        <br>
+                        <p>
+                            <p5>
+                                <mark>{{ comment.text }}</mark>
+                            </p5>
+                        </p>
+                        {% if currentuser == comment.owner or currentuser == this_post.owner or currentuser.is_superuser %}
+
+                        <a href="{% url 'SN:delete_comment' comment.pk %}"
+                           class="btn btn-danger btn-md"
+                           role="button">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+                        </a>
+                        {% endif %}
+                        <br>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<div class="col-sm-1"></div>
+
+{% if friendsoffriends %}
+<div class="col-sm-4 col-sm-offset-6">
+
+    <div class="panel  panel-transparent">
+        <div class="panel-body">
+
+            <h2 style="color: white">People you may know:</h2>
+            <br>
+            {% for user in friendsoffriends %}
+            <div class="row">&emsp;
+
+                <a href="{% url 'SN:profile' user.id %}" style="color: lightgray">&emsp;
+                    <div class="col-sm-3">
+                        {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="img-responsive"
+                             style="width:50px;height:50px;">
+                        {% else %}
+                        <h3>No image to display</h3>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                        <h4>{{ user.first_name }} {{ ' ' }} {{ user.last_name }}</h4>
+                    </div>
+                    <div class="col-sm-1">
+
+                        <a href="{% url 'SN:change_friends' Add user.id %}" class="btn btn-info"
+                           role="button">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Follow
+                        </a>
+                    </div>
+                </a>
+            </div>
+
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

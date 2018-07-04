@@ -6,7 +6,7 @@ from django.urls import reverse
 
 
 class SNUser(AbstractUser):
-    bio = models.TextField(max_length=500, blank=True , null=True, )
+    bio = models.TextField(max_length=500, blank=True, null=True, )
     location = models.CharField(max_length=30, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     profile_pic = models.FileField(null=True, default='../media/anonymous.jpg')  # default profile pic
@@ -71,3 +71,18 @@ class Friend(models.Model):
             current_user=current_user
         )
         friend.friends.remove(new_friend)
+
+
+class ReportUser(models.Model):
+    CHOICES = [('select1', 'This is a fake account'),
+               ('select2', 'This person has inappropriate personal information (profile picture, bio section...etc.)'),
+               ('select3', 'This person is sharing inappropriate/offensive posts'),
+               ('select4', 'This person is annoying me'),
+               ('select5', 'Other...')
+               ]
+
+    text = models.CharField(max_length=5000)
+    owner = models.ForeignKey(SNUser, related_name='reporting', on_delete=models.CASCADE)
+    reported_user = models.ForeignKey(SNUser, related_name='reported', on_delete=models.CASCADE)
+    report_option = models.CharField(choices=CHOICES, max_length=100)
+

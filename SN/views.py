@@ -1,21 +1,18 @@
 from django.views import generic
-from .models import SNUser, Post, Friend, Like, Comment
+from .models import SNUser, Post, Friend, Like, Comment, ReportUser
 from django.urls import reverse_lazy
-from django.db.models import Q
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import SNUserForm, AddPostForm, AddCommentForm
-from django.shortcuts import render, redirect, get_object_or_404,Http404
+from .forms import SNUserForm, AddPostForm, AddCommentForm, ReportUserForm
+from django.shortcuts import render, redirect, get_object_or_404, Http404
 from django.db.models import Count, Max
-from itertools import chain
-from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import SNUserSerializer, PostSerializer
 from rest_framework import status
-from django.contrib.auth import views as auth_views
-from django.http import   HttpResponseRedirect
+from django.http import Http404
+from django.contrib import messages
 import os
 
 def ProfileView(request, pk=None):
@@ -168,10 +165,6 @@ class Addpostview(View):
 
     # process form data
     def post(self, request):
-        #  if not request.user.is_authenticated():
-        # return render(request, 'SN/login.html')
-        # return
-        # else:
         form = self.form_class(request.POST, request.FILES)
 
         if form.is_valid():
@@ -443,3 +436,29 @@ class PostDelete(DeleteView):
 class CommentDelete(DeleteView):
     model = Comment
     success_url = reverse_lazy("SN:home")
+
+
+class ReportUserView(View):
+    template_name = 'SN/report_user_form.html'
+    form_class = ReportUserForm
+
+    # display blank form for signup
+    def get(self, request, pk):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.owner = request.user
+            report.reported_user = SNUser.objects.get(pk=self.kwargs['pk'])
+            report.report_option = form.cleaned_data['report_option']
+            report.save()
+            messages.success(request, 'Your report has been successfully submitted!')
+            return redirect('SN:home')
+        else:
+            return Http404('Something went wrong')
+

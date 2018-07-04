@@ -7,53 +7,68 @@
     <div class="panel panel-default">
         <div class="col-sm-6 col-sm-offset-8">
             {% if current_user == snuser or current_user.is_superuser %}
-                <a href="{% url 'SN:edit_profile' snuser.pk %}" class="btn btn-outline btn-md"
-                   role="button">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
-                </a>
-                <a href="{% url 'SN:delete_profile' snuser.pk %}" class="btn btn-danger btn-md"
-                   role="button">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+            <a href="{% url 'SN:edit_profile' snuser.pk %}" class="btn btn-outline btn-md"
+               role="button">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true">Edit</span>
+            </a>
+            <a href="{% url 'SN:delete_profile' snuser.pk %}" class="btn btn-danger btn-md"
+               role="button">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
 
 
-                </a>
+            </a>
             {% endif %}
         </div>
-        <div class="panel-body" >
+
+        <div class="panel-body">
             <a href="{% url 'SN:myprofile' %}">
                 {% if snuser.profile_pic %}
-                    <img src="{{ snuser.profile_pic.url }}" class="img-rounded">
+                <img src="{{ snuser.profile_pic.url }}" class="img-rounded">
 
                 {% else %}
-                    <h3>No image to display</h3>
+                <h3>No image to display</h3>
                 {% endif %}
 
             </a>
-<br><br>
+            <br><br>
             {% if request.user != snuser %}
-                    <a href="{% url 'SN:change_friends' addremove snuser.id %}" class="btn btn-info" role="button">
-                        {% if addremove == "Add"%}
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            Follow
-                        {% else %}
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            Unfollow
-                        {% endif %}
-
-                    </a>
+            <a href="{% url 'SN:change_friends' addremove snuser.id %}" class="btn btn-info" role="button">
+                {% if addremove == "Add" %}
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Follow
+                {% else %}
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Unfollow
+                {% endif %}
+            </a>
             {% endif %}
-            <h3>{{ 'Username:' }}{{' '}}{{ snuser.first_name }}{{' '}}{{ snuser.last_name }}</h3>
-            <h3>{{ 'Email:' }}{{' '}}{{ snuser.email }}</h3>
-            <h3>{{ 'Birthday:' }}{{' '}}{{ snuser.birth_date }}</h3>
-            <h3>{{ 'Country:' }}{{' '}}{{ snuser.location }}</h3>
-            <h3>{{ 'Gender:' }}{{' '}}
+
+            <h3>{{ 'Username:' }}{{ ' ' }}{{ snuser.first_name }}{{ ' ' }}{{ snuser.last_name }}</h3>
+            <h3>{{ 'Email:' }}{{ ' ' }}{{ snuser.email }}</h3>
+            <h3>{{ 'Birthday:' }}{{ ' ' }}{{ snuser.birth_date }}</h3>
+            <h3>{{ 'Country:' }}{{ ' ' }}{{ snuser.location }}</h3>
+            <h3>{{ 'Gender:' }}{{ ' ' }}
                 {% if snuser.gender == 'M' %}
-                    {{ 'Male' }}
-                {% else  %}
-                    {{ 'Female' }}
+                {{ 'Male' }}
+                {% else %}
+                {{ 'Female' }}
                 {% endif %}
             </h3>
-            <h3>{{ 'Bio:' }}{{' '}}{{ snuser.bio }}</h3>
+            <h3>{{ 'Bio:' }}{{ ' ' }}{{ snuser.bio }}</h3>
+
+            <hr>
+            <div class="col-sm-6 col-sm-offset-9">
+                {% if request.user != snuser %}
+                <a href="{% url 'SN:report_user' snuser.id %}" class="btn btn-outline-warning"
+                   role="button">
+                    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                    <strong>Report User</strong>
+                </a>
+
+                {% endif %}
+            </div>
+
+
         </div>
     </div>
 
