@@ -106,14 +106,14 @@ def home(request):
         return render(request, template, context)
 
     logged_in_user = request.user
-    current_user_posts = Post.objects.filter(owner=logged_in_user)  # this user's posts only
+    current_user_posts = Post.objects.filter(owner=logged_in_user, is_group_post=False)  # this user's posts only
     friends_posts = []
     friend_obj = Friend.objects.filter(current_user=logged_in_user)  # all friends of logged-in user
     queryset = SNUser.objects.none()
 
     for current_friends in friend_obj.all():
         for current_friend in current_friends.friends.all():
-            for post in Post.objects.filter(owner=current_friend.pk):
+            for post in Post.objects.filter(owner=current_friend.pk, is_group_post=False):
                 friends_posts.append(post)
 
     for this_post in current_user_posts:
@@ -487,5 +487,154 @@ class ReportPostView(View):
             return redirect('SN:home')
         else:
             return Http404('Something went wrong')
+        
+
+lass CreateGroupView(View):
+
+    template_name = 'SN/group_form.html'
+    form_class = CreateGroupForm
+
+    # display blank form for signup
+
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+
+        form = self.form_class(request.POST, request.FILES)
+
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.admin = request.user
+            group.save()
+            return redirect('SN:home')
 
 
+def groupslist(request):
+    if request.user.is_anonymous is True:
+        return redirect('SN:login')
+    all_groups = Group.objects.all()
+    your_groups = []
+    other_groups = []
+    groups_you_own = []
+    for group in all_groups:
+        if request.user == group.admin:
+            groups_you_own.append(group)
+        elif request.user in group.members.all():
+            your_groups.append(group)
+        else:
+            other_groups.append(group)
+    template = 'SN/groups.html'
+    context = {'your_groups': your_groups,
+               'other_groups': other_groups,
+               'owned_groups': groups_you_own}
+    return render(request, template, context)
+
+
+def change_group_member(request,operation,pk):
+    if request.user.is_anonymous is True:
+        return redirect('SN:login')
+    group = Group.objects.get(pk=pk)
+    if operation == 'leave':
+        group.members.remove(request.user)
+        member_posts = group.posts.all().filter(owner=request.user)
+        for post in member_posts:
+            group.posts.remove(post)
+            post.delete()
+    elif operation == 'join':
+        group.members.add(request.user)
+    group.save()
+    return redirect('SN:group_details', pk)
+
+
+def group_details(request,pk):
+    if request.user.is_anonymous is True:
+        return redirect('SN:login')
+    template = 'SN/group_details.html'
+    group = get_object_or_404(Group, pk=pk)
+    if request.user in group.members.all():
+        is_member = True
+    else:
+        is_member = False
+    context = {'group': group,
+               'is_member': is_member,
+               'group_posts': group.posts.all(),
+               'currentuser': request.user}
+    return render(request, template, context)
+
+def group_members(request,pk):
+    if request.user.is_anonymous is True:
+        return redirect('SN:login')
+    template = 'SN/group_members.html'
+    group = get_object_or_404(Group, pk=pk)
+    if request.user in group.members.all():
+        is_member = True
+    else:
+        is_member = False
+    all_members = group.members.all()
+    friend, create = Friend.objects.get_or_create(current_user=request.user)
+    if create:
+        current_user_friends = None
+    else:
+        current_user_friends = friend.friends.all()
+
+    context = {'group': group,
+               'is_member': is_member,
+               'members': all_members,
+               'friends': current_user_friends,
+               'admin': group.admin}
+    return render(request, template, context)
+
+
+class Addpostgroup(View):
+
+    template_name = 'SN/post_form.html'
+    form_class = AddPostForm
+
+    # display blank form for signup
+
+    def get(self, request, pk):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request, pk):
+
+        form = self.form_class(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.owner = request.user
+            post.is_group_post = True
+            post.save()
+            group = get_object_or_404(Group, pk=pk)
+            group.posts.add(post)
+            group.save()
+            return redirect('SN:group_details', pk)
+
+
+def delete_group(request, pk):
+    if request.user.is_anonymous is True:
+        return redirect('SN:login')
+    group = get_object_or_404(Group, pk=pk)
+    if request.user == group.admin or request.user.is_superuser:
+        for post in group.posts.all():
+            post.delete()
+        group.delete()
+    return redirect('SN:groups')
+
+
+def delete_member(request,  group_pk, member_pk):
+    if request.user.is_anonymous is True:
+        return redirect('SN:login')
+    group = get_object_or_404(Group, pk=group_pk)
+    member = get_object_or_404(SNUser, pk=member_pk)
+    member_posts = group.posts.all().filter(owner=member)
+    if request.user == group.admin or request.user.is_superuser:
+        group.members.remove(member)
+        for post in member_posts:
+            group.posts.remove(post)
+            post.delete()
+    return redirect('SN:group_members', group_pk)
