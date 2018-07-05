@@ -87,6 +87,12 @@
                         <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp; Social
                     </a>
                 </li>
+                <!--groups bar item-->
+                <li {% if request.resolver_match.url_name == 'groups' %}class="active"{% endif %}>
+                    <a href="{% url 'SN:groups' %}">
+                       <i class="material-icons" style="font-size: large">group</i>&nbsp; Groups
+                    </a>
+                </li>
             </ul>
 
             <!--search form-->
@@ -115,6 +121,11 @@
                <li {% if request.resolver_match.url_name == 'analysis' %}class="active"{% endif %}>
                     <a href="{% url 'SN:analysis' %}">
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp; Analysis
+                    </a>
+                </li>
+                 <li >
+                    <a href="{% url 'SN:create_group' %}">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp; Create Group
                     </a>
                 </li>
                 <li {% if request.resolver_match.url_name == 'addpost' %}class="active"{% endif %}>
