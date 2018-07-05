@@ -1,0 +1,163 @@
+{% extends 'SN/base.html' %}
+
+{% block title %}List of groups{% endblock %}
+
+{% block body %}
+<style>
+.panel-transparent {
+        background: none;
+    }
+
+.panel-transparent .panel-body{
+    background: rgba(46, 51, 56, 0.2);
+}
+a{
+    color: #9d9d9d;
+}
+h2{
+    color: white;
+}
+h5{
+    color: #9d9d9d;
+}
+</style>
+    <div class=" col-sm-6">
+    <div class="container">
+{% if your_groups or owned_groups %}
+    <div class=" col-sm-8">
+          <div class="panel-body" >
+{% endif %}
+    {% if owned_groups %}
+    <h2>&nbsp;&nbsp;Owned Groups:</h2>
+    {% endif %}
+    {% for group in owned_groups %}
+                <br>
+                <div class="row">
+                    <div class="col-sm-11 col-sm-offset-1">
+                        <a href="{% url 'SN:group_details' group.pk %}">
+                            {% if group.photo %}
+                                <img src="{{ group.photo.url }}" class="img-circle"
+                                     style="width:80px;height:80px;">
+                            {% else %}
+                                <h3>No image to display</h3>
+                            {% endif %}
+
+                            <a href="{% url 'SN:group_details' group.pk %}" style="font-size:250% ">
+                                &nbsp; {{ group.name }}&nbsp;&nbsp;&nbsp;
+                            </a>
+                        </a>
+                      <a href="{% url 'SN:delete_group'  group.pk%}" class="btn btn-danger btn-md"
+                                                       role="button" >
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true">&nbsp;Delete</span>
+                      </a>
+
+                        <div class="col-sm-offset-2">
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ group.members.count }}
+                                {% if group.memebers.count == 1 %}member
+                                {% else %} members
+                                {% endif %}
+                            </h5>
+                        </div>
+
+                    </div>
+                </div>
+    {% endfor %}
+{% if your_groups %}
+    <h2>&nbsp;&nbsp;Joined Groups:</h2>
+    {% endif %}
+    {% for group in your_groups %}
+
+                <br>
+                <div class="row">
+                    <div class="col-sm-11 col-sm-offset-1">
+                        <a href="{% url 'SN:group_details' group.pk %}">
+                            {% if group.photo %}
+                                <img src="{{ group.photo.url }}" class="img-circle"
+                                     style="width:80px;height:80px;">
+                            {% else %}
+                                <h3>No image to display</h3>
+                            {% endif %}
+
+                            <a href="{% url 'SN:group_details' group.pk %}" style="font-size:250% ">
+                                &nbsp; {{ group.name }}
+                            </a>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'SN:change_members' "leave" group.pk %}" class="btn btn-info" role="button">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            Leave Group
+                        </a>
+                        <div class="col-sm-offset-2">
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ group.members.count }}
+                                {% if group.memebers.count == 1 %}member
+                                {% else %} members
+                                {% endif %}
+                            </h5>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+    {% endfor %}
+     </div>
+        </div>
+</div>
+    </div>
+    <div class=" col-sm-6 ">
+    <div class="container">
+{% if other_groups %}
+{% if your_groups or owned_groups %}
+
+    <div class=" col-sm-7 ">
+        <div class="panel-body" >
+                    <h2>&nbsp;&nbsp;Other Groups:</h2>
+                {% else %}
+            <div class=" col-sm-7 ">
+        <div class="panel-body" >
+                            <h2>&nbsp;&nbsp;Groups:</h2>
+                {% endif %}
+    {% endif %}
+    {% for group in other_groups %}
+
+                <br>
+                <div class="row">
+                    <div class="col-sm-11 col-sm-offset-1">
+                        <a href="{% url 'SN:group_details' group.pk %}">
+                            {% if group.photo %}
+                                <img src="{{ group.photo.url }}" class="img-circle"
+                                     style="width:80px;height:80px;">
+                            {% else %}
+                                <h3>No image to display</h3>
+                            {% endif %}
+
+                            <h href="{% url 'SN:group_details' group.pk %}" style="font-size:250% ">
+                                &nbsp; {{ group.name }}
+                            </h>
+                        </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'SN:change_members' "join" group.pk %}" class="btn btn-info" role="button">
+
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                Join Group
+                        </a>
+                        <div class="col-sm-offset-2">
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ group.members.count }}
+                                {% if group.members.count == 1 %}member
+                                {% else %} members
+                                {% endif %}
+                            </h5>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+    {% endfor %}
+     </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}
