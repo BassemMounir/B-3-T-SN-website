@@ -27,6 +27,7 @@ class Post(models.Model):
     photo = models.FileField(null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     current_user_like = models.BooleanField(default=False)
+    is_group_post = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('SN:post_detail', args=[self.slug])
@@ -99,3 +100,12 @@ class ReportPost(models.Model):
     reported_post = models.ForeignKey(Post, related_name='reported_post', on_delete=models.CASCADE)
     reported_post_user = models.ForeignKey(SNUser, related_name='reported_post_user', on_delete=models.CASCADE)
     report_option = models.CharField(choices=CHOICES, max_length=100)
+    
+    
+class Group(models.Model):
+    members = models.ManyToManyField(SNUser)
+    posts = models.ManyToManyField(Post)
+    admin = models.ForeignKey(SNUser, related_name="admin", null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=250)
+    photo = models.FileField(blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
