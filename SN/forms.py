@@ -70,5 +70,10 @@ class ReportPostForm(forms.ModelForm):
     class Meta:
         model = ReportPost
         fields = ['report_option', 'text']
+        
+class CreateGroupForm(forms.ModelForm):
 
+    class Meta:
+        model = Group
+        fields = ['name', 'photo']
 
