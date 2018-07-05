@@ -71,5 +71,27 @@ urlpatterns = [
 
     # SN/analysis/
     re_path(r'^analysis/$', views.analysis, name='analysis'),
+    
+    
+    # SN/creategroup
+    re_path(r'^creategroup/$', views.CreateGroupView.as_view(), name='create_group'),
+
+    # SN/groups/
+    re_path(r'^groups/$', views.groupslist, name='groups'),
+    # SN/change_member
+    url(r'^group_change_members/(?P<operation>.+)/(?P<pk>[0-9]+)/$', views.change_group_member, name='change_members'),
+
+    # SN/group/pk
+    re_path(r'^group/(?P<pk>[0-9]+)/$', views.group_details, name='group_details'),
+    # SN/group/pk/members
+    re_path(r'^group/(?P<pk>[0-9]+)/members$', views.group_members, name='group_members'),
+    # SN/group/pk/addpost
+    re_path(r'^group/(?P<pk>[0-9]+)/addpost$', views.Addpostgroup.as_view(), name='addpost_group'),
+
+    # SN/group/pk/delete
+    re_path(r'^group/(?P<pk>[0-9]+)/delete$', views.delete_group, name='delete_group'),
+# SN/group/pk/delete_member
+    re_path(r'^group/(?P<group_pk>[0-9]+)/delete_member/(?P<member_pk>[0-9]+)$', views.delete_member, name='delete_member'),
+
 
 ]
