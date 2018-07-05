@@ -10,3 +10,5 @@ admin.site.register(Comment)
 admin.site.register(Friend)
 admin.site.register(ReportUser)
 admin.site.register(ReportPost)
+admin.site.register(Group)
+
