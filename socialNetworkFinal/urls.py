@@ -24,10 +24,10 @@ from SN import views
 urlpatterns = [
     path('admin/', admin.site.urls, ),
     path('SN/', include('SN.urls')),
-    path('usersxml/', views.UsersList.as_view()),
-    re_path(r'^usersxml/(?P<pk>[0-9]+)/', views.SNUserDetail.as_view()),
-    path('postsxml/', views.PostsList.as_view()),
-
+    path('usersjason/', views.UsersList.as_view()),
+    re_path(r'^usersjason/(?P<pk>[0-9]+)/', views.SNUserDetail.as_view()),
+    path('postsjason/', views.PostsList.as_view()),
+    path('excelreport/', views.ToExcel),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html', 'xml'])
