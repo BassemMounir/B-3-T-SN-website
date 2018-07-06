@@ -638,3 +638,83 @@ def delete_member(request,  group_pk, member_pk):
             group.posts.remove(post)
             post.delete()
     return redirect('SN:group_members', group_pk)
+
+def ToExcel(self):
+    workbook = xlsxwriter.Workbook('excel_report.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    userspostslist=[]
+    userslist=[]
+    for user in SNUser.objects.all():
+        userspostslist.append(user.posts.count())
+        userslist.append(user.username)
+
+    usersfriendslist = []
+    fuserslist = []
+    # for user in SNUser.objects.all():
+    #     usersfriendslist.append(user.friends.count())
+    #     fuserslist.append(user.username)
+
+    groupspostslist=[]
+    groupslist=[]
+    for group in Group.objects.all():
+        groupspostslist.append(group.posts.count())
+        groupslist.append(group.name)
+
+    groupsmemberslist = []
+    mgroupslist = []
+    for group in Group.objects.all():
+        groupsmemberslist.append(group.members.count())
+        mgroupslist.append(group.name)
+
+    #userslistchart/posts
+    worksheet.write_column("A1", userslist)
+    worksheet.write_column("B1", userspostslist)
+    userslistchart = workbook.add_chart({"type": "column"})
+    userslistchart.add_series({'categories': '=Sheet1!$A$1:$A$10',
+                               'values':     '=Sheet1!$B$1:$B$10', "name": "Number of Posts for each User"})
+    worksheet.insert_chart("G1", userslistchart, {'x_scale': 2, 'y_scale': 1})
+    userslistchart.set_x_axis({"name": "Users", 'name_font': {'size': 14, 'bold': True}})
+    userslistchart.set_y_axis({"name": "Number of Posts", 'name_font': {'size': 14, 'bold': True}, "major_unit": 1})
+    userslistchart.set_legend({'none': True})
+
+
+    # userslistchart/friends
+    worksheet.write_column("V1", fuserslist)
+    worksheet.write_column("W1", usersfriendslist)
+    fuserslistchart = workbook.add_chart({"type": "column"})
+    fuserslistchart.add_series({'categories': '=Sheet1!$V$1:$V$10',
+                               'values': '=Sheet1!$W$1:$W$10', "name": "Number of Friends for each User",
+                                'fill':   {'color': '##FFFF00'}})
+    worksheet.insert_chart("G49", fuserslistchart, {'x_scale': 2, 'y_scale': 1})
+    fuserslistchart.set_x_axis({"name": "Users", 'name_font': {'size': 14, 'bold': True}})
+    fuserslistchart.set_y_axis({"name": "Number of Friends", 'name_font': {'size': 14, 'bold': True}, "major_unit": 1})
+    fuserslistchart.set_legend({'none': True})
+
+
+    #groupslistchart/posts
+    worksheet.write_column("C1", groupslist)
+    worksheet.write_column("D1", groupspostslist)
+    groupslistchart = workbook.add_chart({"type": "column"})
+    groupslistchart.add_series({'categories': '=Sheet1!$C$1:$C$10',
+                                'values':     '=Sheet1!$D$1:$D$10', "name": "Number of Posts for each Group",
+                                'fill':   {'color': '#008000'}})
+    worksheet.insert_chart("G17", groupslistchart, {'x_scale': 2, 'y_scale': 1})
+    groupslistchart.set_x_axis({"name": "Groups", 'name_font': {'size': 14, 'bold': True}})
+    groupslistchart.set_y_axis({"name": "Number of Posts", 'name_font': {'size': 14, 'bold': True}, "major_unit": 1})
+    groupslistchart.set_legend({'none': True})
+
+    # groupslistchart/members
+    worksheet.write_column("E1", mgroupslist)
+    worksheet.write_column("F1", groupsmemberslist)
+    mgroupslistchart = workbook.add_chart({"type": "column"})
+    mgroupslistchart.add_series({'categories': '=Sheet1!$E$1:$E$10',
+                                'values': '=Sheet1!$F$1:$F$10', "name": "Number of Members for each Group",
+                                'fill':   {'color': '#FF6600'}})
+    worksheet.insert_chart("G33", mgroupslistchart, {'x_scale': 2, 'y_scale': 1})
+    mgroupslistchart.set_x_axis({"name": "Groups", 'name_font': {'size': 14, 'bold': True}})
+    mgroupslistchart.set_y_axis({"name": "Number of Members", 'name_font': {'size': 14, 'bold': True}, "major_unit": 1})
+    mgroupslistchart.set_legend({'none': True})
+
+    workbook.close()
+    return HttpResponse()
