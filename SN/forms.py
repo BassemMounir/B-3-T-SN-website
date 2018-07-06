@@ -1,4 +1,4 @@
-from .models import SNUser, Post, Comment, ReportUser, ReportPost
+from .models import SNUser, Post, Comment, ReportUser, ReportPost, Group
 from django import forms
 
 
