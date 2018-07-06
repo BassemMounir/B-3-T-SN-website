@@ -1,10 +1,10 @@
 from django.views import generic
-from .models import SNUser, Post, Friend, Like, Comment, ReportUser, ReportPost
+from .models import SNUser, Post, Friend, Like, Comment, ReportUser, ReportPost, Group
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import SNUserForm, AddPostForm, AddCommentForm, ReportUserForm, ReportPostForm
+from .forms import SNUserForm, AddPostForm, AddCommentForm, ReportUserForm, ReportPostForm, CreateGroupForm
 from django.shortcuts import render, redirect, get_object_or_404, Http404
 from django.db.models import Count, Max
 from rest_framework.response import Response
