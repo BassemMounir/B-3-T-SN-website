@@ -489,7 +489,7 @@ class ReportPostView(View):
             return Http404('Something went wrong')
         
 
-lass CreateGroupView(View):
+class CreateGroupView(View):
 
     template_name = 'SN/group_form.html'
     form_class = CreateGroupForm
