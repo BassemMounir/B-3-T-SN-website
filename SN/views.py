@@ -649,8 +649,8 @@ def ToExcel(self):
         userspostslist.append(user.posts.count())
         userslist.append(user.username)
 
-    usersfriendslist = []
-    fuserslist = []
+#     usersfriendslist = []
+#     fuserslist = []
     # for user in SNUser.objects.all():
     #     usersfriendslist.append(user.friends.count())
     #     fuserslist.append(user.username)
@@ -679,17 +679,17 @@ def ToExcel(self):
     userslistchart.set_legend({'none': True})
 
 
-    # userslistchart/friends
-    worksheet.write_column("V1", fuserslist)
-    worksheet.write_column("W1", usersfriendslist)
-    fuserslistchart = workbook.add_chart({"type": "column"})
-    fuserslistchart.add_series({'categories': '=Sheet1!$V$1:$V$10',
-                               'values': '=Sheet1!$W$1:$W$10', "name": "Number of Friends for each User",
-                                'fill':   {'color': '##FFFF00'}})
-    worksheet.insert_chart("G49", fuserslistchart, {'x_scale': 2, 'y_scale': 1})
-    fuserslistchart.set_x_axis({"name": "Users", 'name_font': {'size': 14, 'bold': True}})
-    fuserslistchart.set_y_axis({"name": "Number of Friends", 'name_font': {'size': 14, 'bold': True}, "major_unit": 1})
-    fuserslistchart.set_legend({'none': True})
+#     # userslistchart/friends
+#     worksheet.write_column("V1", fuserslist)
+#     worksheet.write_column("W1", usersfriendslist)
+#     fuserslistchart = workbook.add_chart({"type": "column"})
+#     fuserslistchart.add_series({'categories': '=Sheet1!$V$1:$V$10',
+#                                'values': '=Sheet1!$W$1:$W$10', "name": "Number of Friends for each User",
+#                                 'fill':   {'color': '#FFFF00'}})
+#     worksheet.insert_chart("G49", fuserslistchart, {'x_scale': 2, 'y_scale': 1})
+#     fuserslistchart.set_x_axis({"name": "Users", 'name_font': {'size': 14, 'bold': True}})
+#     fuserslistchart.set_y_axis({"name": "Number of Friends", 'name_font': {'size': 14, 'bold': True}, "major_unit": 1})
+#     fuserslistchart.set_legend({'none': True})
 
 
     #groupslistchart/posts
